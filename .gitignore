@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production builds
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local SQLite databases & cache
+server/data/*.db
+server/data/*.db-journal
+server/data/comic_cache/
+server/data/gutenberg_cache/
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary & backup files
+backup/
+tmp/
+temp/
+note.txt
+scripts/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
