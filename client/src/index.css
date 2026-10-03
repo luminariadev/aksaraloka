@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #FAF8F5;
+    color: #292524;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Lora', 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer components {
+  /* Modern Library Cards */
+  .library-card {
+    @apply bg-white/90 backdrop-blur-sm rounded-2xl border border-stone-200/80 shadow-sm transition-all duration-300;
+  }
+
+  .library-card-hover {
+    @apply library-card hover:shadow-card-warm-hover hover:-translate-y-1 hover:border-amber-600/30;
+  }
+
+  /* Library Buttons */
+  .library-btn-primary {
+    @apply px-5 py-2.5 bg-stone-900 text-amber-50 rounded-xl font-medium shadow-sm transition-all duration-200 hover:bg-stone-800 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+  }
+
+  .library-btn-secondary {
+    @apply px-5 py-2.5 bg-white text-stone-700 border border-stone-200 rounded-xl font-medium shadow-sm transition-all duration-200 hover:bg-stone-50 hover:text-stone-900 active:scale-[0.98] disabled:opacity-50 cursor-pointer;
+  }
+
+  .library-btn-amber {
+    @apply px-5 py-2.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:from-amber-700 hover:to-amber-800 active:scale-[0.98] cursor-pointer;
+  }
+
+  .library-btn-emerald {
+    @apply px-5 py-2.5 bg-emerald-700 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:bg-emerald-800 active:scale-[0.98] cursor-pointer;
+  }
+
+  /* Library Inputs */
+  .library-input {
+    @apply w-full bg-white border border-stone-200 rounded-xl px-4 py-2.5 text-stone-800 placeholder-stone-400 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600/30 focus:border-amber-600 transition-all;
+  }
+
+  /* Book Spine Effect */
+  .book-cover-3d {
+    @apply relative overflow-hidden rounded-r-xl rounded-l-sm shadow-book transition-transform duration-500 hover:shadow-book-lg;
+    border-left: 5px solid rgba(0, 0, 0, 0.25);
+  }
+
+  /* Backwards compatibility aliases mapped to modern aesthetic styles */
+  .clay-card {
+    @apply bg-white/95 rounded-2xl border border-stone-200 shadow-sm transition-all duration-300;
+  }
+  .clay-card-baby {
+    @apply bg-white/95 rounded-2xl border border-sky-100 shadow-sm transition-all duration-300;
+  }
+  .clay-card-mint {
+    @apply bg-white/95 rounded-2xl border border-emerald-100 shadow-sm transition-all duration-300;
+  }
+  .clay-card-lilac {
+    @apply bg-white/95 rounded-2xl border border-purple-100 shadow-sm transition-all duration-300;
+  }
+  .clay-card-flat {
+    @apply bg-stone-50/80 rounded-xl border border-stone-200/60;
+  }
+  .clay-btn {
+    @apply px-4 py-2 bg-white text-stone-700 border border-stone-200 rounded-xl font-medium shadow-sm hover:bg-stone-50 transition-all cursor-pointer;
+  }
+  .clay-btn-primary {
+    @apply px-5 py-2.5 bg-stone-900 text-amber-50 rounded-xl font-semibold shadow-sm hover:bg-stone-800 transition-all cursor-pointer;
+  }
+  .clay-input {
+    @apply library-input;
+  }
+  .clay-badge {
+    @apply px-2.5 py-1 bg-stone-100 text-stone-700 rounded-full text-xs font-semibold border border-stone-200;
+  }
+  .clay-badge-peach {
+    @apply px-2.5 py-1 bg-amber-50 text-amber-800 rounded-full text-xs font-semibold border border-amber-200/80;
+  }
+}
+
+/* Custom Scrollbar for reader & tables */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F0E6;
+}
+::-webkit-scrollbar-thumb {
+  background: #D7C4A7;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B89F7D;
+}
