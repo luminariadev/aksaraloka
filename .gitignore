@@ -41,3 +41,5 @@ scripts/
 Thumbs.db
 .vscode/
 .idea/
+nul
+client/nul
