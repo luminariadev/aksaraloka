@@ -1,85 +1,102 @@
-# 🏛️ MyLibrary — Hybrid Smart Library Platform
-
-Platform perpustakaan modern dengan konsep **Hybrid** (sirkulasi peminjaman buku fisik di rak + pembaca e-book digital langsung di web) dan arsitektur **Dual-Engine Database** (SQLite lokal mandiri untuk operasional offline & backup + PostgreSQL/Supabase untuk sinkronisasi cloud).
-
-Mengusung tema visual **Warm Literary Sanctuary**: palet warna perkamen krem yang nyaman di mata, tipografi editorial *Lora* dan *Playfair Display*, cover buku 3D realistis dengan *spine depth*, serta antarmuka meja pustakawan yang efisien.
-
----
-
-## 🎨 Fitur Utama
-
-- **📖 Sirkulasi Buku Fisik (Meja Pustakawan)**:
-  - Pencatatan kode rak (misal `Rak Sastra A-01`) dan stok riil eksemplar.
-  - Alur transaksi peminjaman mandiri & kasir (jatuh tempo default 7 hari).
-  - Penghitungan denda otomatis keterlambatan (Rp 1.000/hari) dan restock saat buku dikembalikan.
-- **⚡ In-Browser E-Reader Digital**:
-  - Membaca dokumen e-book (PDF) langsung di peramban tanpa perlu instalasi aplikasi tambahan.
-  - Pilihan mode baca ramah mata: **Sepia**, **Terang (Light)**, dan **Gelap (Dark)**.
-- **🏛️ Dual-Engine Database (Offline-Resilient & Cloud Sync)**:
-  - **Lokal (SQLite - `server/data/mylibrary_local.db`)**: Otomatis aktif, zero-config, tidak membutuhkan Docker atau PostgreSQL lokal saat masa pengembangan atau saat koneksi internet terputus.
-  - **Cloud (PostgreSQL / Supabase)**: Terhubung otomatis saat variabel `DATABASE_URL` diatur pada `.env`.
-- **💳 Kartu Anggota Perpustakaan Digital**:
-  - Identitas anggota virtual lengkap dengan kode unik anggota (`LIB-2026-001`).
-- **🔍 Pencarian & Filter Multi-Format**:
-  - Filter cepat: *Semua Format*, *Buku Fisik Saja*, atau *E-Book Digital Saja*.
-  - Pengurutan berdasarkan judul, penulis, tahun terbit, dan tanggal entri.
+<div align="center">
+  <img src="client/public/favicon.svg" width="96" height="96" alt="AksaraLoka Logo" />
+  <h1>AksaraLoka</h1>
+  <p><strong>Semesta Aksara & Arsip Pengetahuan Terbuka</strong></p>
+  <p>Platform perpustakaan hibrida dengan sirkulasi fisik di rak, pembaca naskah digital langsung di peramban, serta arsitektur dual-engine database (SQLite Lokal & Supabase PostgreSQL Cloud).</p>
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## Ringkasan Fitur
 
-### Frontend (`client/`)
-- **Framework**: React 18 + Vite
-- **Styling**: Tailwind CSS (Custom Warm Library Theme)
-- **Typography**: Lora (Serif) & Plus Jakarta Sans
-- **Routing**: React Router v6
-- **HTTP Client**: Axios
+### 1. Ruang Aksara Pembaca (User / Member)
+- **Katalog Koleksi**: Menjelajahi buku fisik di rak dan koleksi naskah digital.
+- **Naskah Klasik Terbuka (Project Gutenberg)**: Membaca karya klasik dunia (*The Art of War*, *Relativity*, *Meditations*, dll.) bab demi bab langsung di web dengan pilihan tema (Terang, Sepia, Gelap) dan ukuran teks.
+- **Komik & Manga Daring**: Membaca komik visual (*XKCD Sains*, MangaDex publik) dengan pembaca panel vertikal *webtoon* atau *single page*.
+- **Peminjaman & Pengembalian**: Pengajuan pinjam buku fisik dengan penghitungan jatuh tempo dan denda otomatis.
+- **Kartu Anggota Digital**: Identitas keanggotaan virtual ber-QR code dan nomor anggota unik.
 
-### Backend (`server/`)
-- **Runtime**: Node.js (v24+)
-- **Framework**: Express.js
-- **Database Engine**:
-  - **Local Native**: `node:sqlite` (SQLite bawaan Node.js tanpa binary compilation)
-  - **Cloud/External**: PostgreSQL (`pg` pool) & Supabase compatibility
-- **Keamanan**: Helmet, CORS, Express-Validator
+### 2. Meja Kerja Pustakawan (Librarian Desk)
+- **Meja Layanan Sirkulasi**: Pemrosesan peminjaman fisik, verifikasi pengembalian, dan restock buku otomatis.
+- **Audit Kondisi Fisik & Stock Opname**: Pencatatan kondisi fisik eksemplar nyata (*Baik*, *Rusak Ringan*, *Rusak Sedang*, *Rusak Berat*, *Hilang*), catatan inspeksi pustakawan, dan stempel waktu audit.
+- **Impor 1-Klik Koleksi Global**: Sinkronisasi jutaan data buku dari **Open Library REST API** berdasarkan judul, subjek, atau ISBN langsung ke database lokal/cloud.
+
+### 3. Portal Administrator Sistem (Admin Desk)
+- **Manajemen Pengguna & Peran**: Pengaturan hak akses peran (*ADMIN*, *LIBRARIAN*, *MEMBER*) dengan proteksi *anti-self lockout*.
+- **Konfigurasi Kebijakan**: Pengaturan besaran denda harian, batas kuota pinjam, durasi peminjaman, dan nama resmi instansi.
+- **Monitoring Dual-Engine**: Pemantauan status engine database yang sedang aktif.
 
 ---
 
-## 🚀 Cara Menjalankan
+## Arsitektur Dual-Engine Database
 
-### 1. Jalankan Backend
+AksaraLoka dirancang dengan konsep **Zero-Friction Offline & Cloud Synchronization**:
+
+| Mode | Engine | Lokasi Data | Kegunaan |
+| :--- | :--- | :--- | :--- |
+| **Offline Lokal** | `node:sqlite` (Native) | `server/data/mylibrary_local.db` | Mode bawaan, zero-config, tahan saat internet terputus. |
+| **Online Cloud** | **Supabase PostgreSQL** | AWS Cloud (Pooler SSL) | Produksi, multi-user concurrent, pencadangan otomatis. |
+
+> **Fail-Safe Mechanism:** Jika koneksi internet atau Supabase mengalami gangguan, backend otomatis beralih sementara (*auto-fallback*) ke SQLite lokal agar layanan tidak terhenti.
+
+---
+
+## Teknologi yang Digunakan
+
+- **Frontend**: React 18, Vite, Tailwind CSS (Warm Literary Theme: `#FAF8F5`, Obsidian `#1C1917`, Amber Gold `#D97706`), Axios, React Router v6.
+- **Backend**: Node.js (v24+), Express.js, JWT Authentication, Helmet, Morgan, Express-Validator.
+- **Database**: PostgreSQL (Supabase) & Node.js Native SQLite (`node:sqlite`).
+- **Integrasi Eksternal**: Project Gutenberg / Gutendex, MangaDex API, XKCD API, Open Library REST API.
+
+---
+
+## Panduan Menjalankan Proyek
+
+### 1. Prasyarat
+- Node.js versi 20 ke atas (disarankan v22+ atau v24).
+- Akun Supabase (opsional, jika ingin mengaktifkan mode cloud).
+
+### 2. Pengaturan Variabel Lingkungan
+Salin file template konfigurasi:
+```bash
+cp .env.example server/.env
+```
+
+Untuk menghubungkan ke Supabase:
+```env
+DB_ENGINE=postgres
+DATABASE_URL=postgresql://postgres.[PROJECT_REF]:[PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres
+DB_SSL=true
+```
+
+### 3. Menjalankan Backend
 ```bash
 cd server
-npm start
-# atau untuk live reload:
+npm install
 npm run dev
 ```
-Server akan aktif di `http://localhost:5000` dan otomatis menginisialisasi database lokal di `server/data/mylibrary_local.db` beserta data awal (seed).
+Server backend akan aktif di `http://localhost:5000`.
 
-### 2. Jalankan Frontend
+### 4. Menjalankan Frontend
 ```bash
 cd client
+npm install
 npm run dev
 ```
-Buka peramban di `http://localhost:5173`. Frontend sudah dilengkapi proxy otomatis ke backend di port 5000.
+Buka peramban di `http://localhost:5173` (atau melalui jaringan lokal LAN pada IP yang tertera).
 
 ---
 
-## 📁 Struktur Direktori
+## Akun Demo Bawaan
 
-```
-MyLibrary/
-├── client/                     # Antarmuka React + Vite
-│   ├── src/
-│   │   ├── components/         # BookCard, Header, SearchBar, BookForm, Pagination
-│   │   ├── pages/              # Home, BookList, BookDetail, AdminDashboard
-│   │   ├── services/           # API Client (Books, Loans, Users, System)
-│   │   └── hooks/              # useBooks hook
-├── server/                     # Backend API Express.js
-│   ├── data/                   # File database lokal (mylibrary_local.db)
-│   └── src/
-│       ├── config/             # database.js (Dual-Engine Adapter)
-│       ├── controllers/        # bookController.js
-│       ├── models/             # Book.js, Loan.js, User.js, Category.js
-│       └── routes/             # books, categories, loans, users
-```
+| Peran | Email | Kata Sandi |
+| :--- | :--- | :--- |
+| **Administrator** | `admin@mylibrary.local` | `password123` |
+| **Pustakawan** | `pustakawan@mylibrary.local` | `password123` |
+| **Anggota** | `rizkia@example.com` | `password123` |
+
+---
+
+<div align="center">
+  <small>© 2026 AksaraLoka — Semesta Aksara & Arsip Pengetahuan Terbuka.</small>
+</div>
