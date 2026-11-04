@@ -1,13 +1,14 @@
 {
-  "name": "mylibrary-server",
+  "name": "aksaraloka-server",
   "version": "1.0.0",
-  "description": "Backend API for MyLibrary - Claymorphism Library Website",
+  "description": "Backend API for AksaraLoka - Open Knowledge Archive & Hybrid Library Website",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
-    "db:seed": "node src/config/seed.js"
+    "db:seed": "node src/config/seed.js",
+    "check": "node --check src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

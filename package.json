@@ -1,0 +1,39 @@
+{
+  "name": "aksaraloka",
+  "version": "1.0.0",
+  "description": "AksaraLoka — Hybrid Library Platform & Open Knowledge Archive",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client:dev": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "client:lint": "npm --prefix client run lint",
+    "server:dev": "npm --prefix server run dev",
+    "server:start": "npm --prefix server run start",
+    "server:check": "npm --prefix server run check",
+    "dev": "npm run client:dev",
+    "build": "npm run client:build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luminariadev/aksaraloka.git"
+  },
+  "keywords": [
+    "library",
+    "digital-library",
+    "hybrid-library",
+    "gutenberg",
+    "mangadex",
+    "xkcd",
+    "sqlite",
+    "supabase",
+    "postgresql",
+    "react",
+    "express"
+  ],
+  "author": "luminariadev <rizkianuari83@gmail.com>",
+  "license": "MIT"
+}
