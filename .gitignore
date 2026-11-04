@@ -6,13 +6,16 @@ node_modules/
 # Production builds
 dist/
 build/
+client/dist/
 
 # Environment files
 .env
+*.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+!.env.example
 
 # Logs
 *.log
@@ -35,6 +38,14 @@ tmp/
 temp/
 note.txt
 scripts/
+
+# AI Agent files - NEVER commit
+CLAUDE.md
+.claude/
+AGENTS.md
+CURSOR.md
+CLINE.md
+*.cursorrules
 
 # OS and Editor files
 .DS_Store
