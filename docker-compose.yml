@@ -4,9 +4,9 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:16-alpine
-    container_name: mylibrary-postgres
+    container_name: aksaraloka-postgres
     environment:
-      POSTGRES_DB: ${DB_NAME:-mylibrary}
+      POSTGRES_DB: ${DB_NAME:-aksaraloka}
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
@@ -15,13 +15,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-mylibrary}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-aksaraloka}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
     networks:
-      - mylibrary-network
+      - aksaraloka-network
     restart: unless-stopped
 
   # Backend API Server
@@ -29,12 +29,12 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: mylibrary-server
+    container_name: aksaraloka-server
     environment:
       PORT: ${PORT:-5000}
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: ${DB_NAME:-mylibrary}
+      DB_NAME: ${DB_NAME:-aksaraloka}
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
@@ -48,7 +48,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - mylibrary-network
+      - aksaraloka-network
     restart: unless-stopped
     develop:
       watch:
@@ -63,7 +63,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    container_name: mylibrary-client
+    container_name: aksaraloka-client
     environment:
       VITE_API_URL: ${VITE_API_URL:-http://localhost:5000/api}
     ports:
@@ -74,7 +74,7 @@ services:
     depends_on:
       - server
     networks:
-      - mylibrary-network
+      - aksaraloka-network
     restart: unless-stopped
     develop:
       watch:
@@ -89,5 +89,5 @@ volumes:
     driver: local
 
 networks:
-  mylibrary-network:
+  aksaraloka-network:
     driver: bridge
