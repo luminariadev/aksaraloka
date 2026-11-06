@@ -14,7 +14,10 @@ const dataDir = path.resolve(__dirname, '../../data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
-const sqlitePath = path.join(dataDir, 'mylibrary_local.db');
+const customSqlitePath = process.env.SQLITE_DB_PATH ? path.resolve(process.env.SQLITE_DB_PATH) : null;
+const preferredSqlitePath = path.join(dataDir, 'aksaraloka_local.db');
+const legacySqlitePath = path.join(dataDir, 'mylibrary_local.db');
+const sqlitePath = customSqlitePath || (fs.existsSync(preferredSqlitePath) ? preferredSqlitePath : (fs.existsSync(legacySqlitePath) ? legacySqlitePath : preferredSqlitePath));
 
 let activeEngine = 'sqlite'; // 'postgres' | 'sqlite'
 let pgPool = null;

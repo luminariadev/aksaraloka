@@ -73,7 +73,7 @@ AksaraLoka dirancang dengan konsep **Zero-Friction Offline & Cloud Synchronizati
 
 | Mode | Engine | Lokasi Data | Kegunaan |
 | :--- | :--- | :--- | :--- |
-| **Offline Lokal** | `node:sqlite` (Native) | `server/data/mylibrary_local.db` | Mode bawaan, zero-config, tahan saat internet terputus. |
+| **Offline Lokal** | `node:sqlite` (Native) | `server/data/aksaraloka_local.db` (atau `mylibrary_local.db`) | Mode bawaan, zero-config, tahan saat internet terputus. |
 | **Online Cloud** | **PostgreSQL** | Cloud Server / Supabase | Produksi, multi-user concurrent, pencadangan otomatis. |
 
 > **Fail-Safe Mechanism:** Jika koneksi internet atau database cloud mengalami gangguan, backend otomatis beralih sementara (*auto-fallback*) ke SQLite lokal agar layanan perpustakaan tidak terhenti.
@@ -188,3 +188,5 @@ Didistribusikan di bawah lisensi **MIT**. Silakan tinjau berkas [`LICENSE`](LICE
 <!-- Daily commit: Fri, Nov 06, 2026  00:15:00 AM -->
 
 <!-- Sync streak 2026-11-06: 00:18 WIB -->
+
+<!-- Daily commit: Sat, Nov 07, 2026  12:25:00 AM -->
