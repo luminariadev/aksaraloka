@@ -48,6 +48,37 @@ app.use('/api/loans', loansRouter);
 app.use('/api/users', usersRouter);
 
 // System status & health check
+app.get('/', (req, res) => {
+  res.json({
+    name: 'AksaraLoka API',
+    version: '1.0.0',
+    description: 'Semesta Aksara & Arsip Pengetahuan Terbuka',
+    status: 'online',
+    system: getEngineStatus(),
+    documentation: 'https://github.com/luminariadev/aksaraloka',
+  });
+});
+
+app.get('/api', (req, res) => {
+  res.json({
+    name: 'AksaraLoka REST API',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      books: '/api/books',
+      categories: '/api/categories',
+      loans: '/api/loans',
+      users: '/api/users',
+      admin: '/api/admin',
+      comics: '/api/comics',
+      reader: '/api/reader',
+      openLibrary: '/api/open-library',
+      health: '/api/health',
+      systemStatus: '/api/system/status',
+    },
+  });
+});
+
 app.get('/api/system/status', (req, res) => {
   res.json({
     success: true,
