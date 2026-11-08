@@ -209,6 +209,10 @@ export const systemAPI = {
     const response = await api.get('/system/status');
     return response;
   },
+  getHealth: async () => {
+    const response = await api.get('/health');
+    return response.data;
+  },
 };
 
 export default api;

@@ -15,7 +15,9 @@
     "server:start": "npm --prefix server run start",
     "server:check": "npm --prefix server run check",
     "dev": "npm run client:dev",
-    "build": "npm run client:build"
+    "build": "npm run client:build",
+    "check": "npm run server:check",
+    "test": "npm run server:check && npm run client:build"
   },
   "repository": {
     "type": "git",
