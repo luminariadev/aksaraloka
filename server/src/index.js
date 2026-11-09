@@ -86,9 +86,10 @@ app.get('/api/system/status', (req, res) => {
   });
 });
 
-app.get('/api/health', (req, res) => {
+app.get(['/health', '/api/health'], (req, res) => {
   res.json({
     status: 'ok',
+    uptime: Math.floor(process.uptime()),
     system: getEngineStatus(),
     timestamp: new Date().toISOString(),
   });
