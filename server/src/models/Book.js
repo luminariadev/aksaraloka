@@ -11,7 +11,9 @@ class Book {
     sortBy = 'created_at',
     sortOrder = 'DESC',
   }) {
-    const offset = (page - 1) * limit;
+    const safePage = Math.max(1, parseInt(page, 10) || 1);
+    const safeLimit = Math.max(1, Math.min(parseInt(limit, 10) || 12, 100));
+    const offset = (safePage - 1) * safeLimit;
     const conditions = [];
     const params = [];
     let paramIndex = 1;
@@ -49,6 +51,8 @@ class Book {
       title: 'b.title',
       author: 'b.author',
       published_year: 'b.published_year',
+      pages: 'b.pages',
+      physical_condition: 'b.physical_condition',
       created_at: 'b.created_at',
       updated_at: 'b.updated_at',
       stock: 'b.stock',
@@ -68,16 +72,16 @@ class Book {
       ORDER BY ${sortColumn} ${order}
       LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
     `;
-    params.push(limit, offset);
+    params.push(safeLimit, offset);
     const dataResult = await db.query(dataQuery, params);
 
     return {
       data: dataResult.rows,
       pagination: {
-        page,
-        limit,
+        page: safePage,
+        limit: safeLimit,
         total,
-        totalPages: Math.ceil(total / limit) || 1,
+        totalPages: Math.ceil(total / safeLimit) || 1,
       },
     };
   }
