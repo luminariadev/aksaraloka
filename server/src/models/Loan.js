@@ -2,7 +2,9 @@ import db from '../config/database.js';
 
 class Loan {
   static async findAll({ status = '', page = 1, limit = 20 }) {
-    const offset = (page - 1) * limit;
+    const safePage = Math.max(1, parseInt(page, 10) || 1);
+    const safeLimit = Math.max(1, Math.min(parseInt(limit, 10) || 20, 100));
+    const offset = (safePage - 1) * safeLimit;
     const conditions = [];
     const params = [];
     let paramIndex = 1;
@@ -30,16 +32,16 @@ class Loan {
       ORDER BY l.created_at DESC
       LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
     `;
-    params.push(limit, offset);
+    params.push(safeLimit, offset);
     const res = await db.query(query, params);
 
     return {
       data: res.rows,
       pagination: {
-        page,
-        limit,
+        page: safePage,
+        limit: safeLimit,
         total,
-        totalPages: Math.ceil(total / limit) || 1,
+        totalPages: Math.ceil(total / safeLimit) || 1,
       },
     };
   }
